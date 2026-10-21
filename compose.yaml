@@ -1,0 +1,30 @@
+services:
+  blog-database:
+    image: mongo:6.0.4
+    network_mode: bridge
+
+  blog-backend:
+    build: backend/
+    network_mode: bridge
+    environment:
+      - PORT=3001
+      - DATABASE_URL=mongodb://mongodb:27017/blog
+    ports:
+      - '3001:3001'
+    links:
+      - blog-database:mongodb
+    depends_on:
+      - blog-database
+
+  blog-frontend:
+    build:
+      context: .
+      args:
+        VITE_BACKEND_URL: /api/v1
+    network_mode: bridge
+    ports:
+      - '3000:80'
+    links:
+      - blog-backend:backend
+    depends_on:
+      - blog-backend
