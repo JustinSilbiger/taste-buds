@@ -22,6 +22,8 @@ export function Blog() {
 
   return (
     <div style={{ padding: 8 }}>
+      <h1>Welcome to Taste Buds</h1>
+      <h2>The recipe sharing app!</h2>
       <CreatePost />
       <br />
       <hr />
