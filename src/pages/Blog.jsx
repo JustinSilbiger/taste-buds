@@ -1,12 +1,14 @@
-import { PostList } from './components/PostList.jsx'
-import { CreatePost } from './components/CreatePost.jsx'
-import { PostFilter } from './components/PostFilter.jsx'
-import { PostSorting } from './components/PostSorting.jsx'
+import { PostList } from '../components/PostList.jsx'
+import { CreatePost } from '../components/CreatePost.jsx'
+import { PostFilter } from '../components/PostFilter.jsx'
+import { PostSorting } from '../components/PostSorting.jsx'
 
 import { useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { getPosts } from './api/posts.js'
+import { getPosts } from '../api/posts.js'
+
+import { Header } from '../components/Header.jsx'
 
 export function Blog() {
   const [author, setAuthor] = useState('')
@@ -22,6 +24,9 @@ export function Blog() {
 
   return (
     <div style={{ padding: 8 }}>
+      <Header />
+      <hr />
+      <br />
       <h1>Welcome to Taste Buds</h1>
       <h2>The recipe sharing app!</h2>
       <CreatePost />

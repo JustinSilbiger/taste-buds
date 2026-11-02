@@ -2,6 +2,8 @@ services:
   blog-database:
     image: mongo:6.0.4
     network_mode: bridge
+    ports:
+      - '127.0.0.1:27017:27017'
 
   blog-backend:
     build: backend/

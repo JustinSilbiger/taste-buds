@@ -49,3 +49,4 @@ jobs:
           service: blog-frontend
           image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:${{ github.sha }}
           region: ${{ secrets.GOOGLECLOUD_REGION }}
+ 
