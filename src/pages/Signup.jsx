@@ -14,7 +14,7 @@ export function Signup() {
     onError: () => alert('failed to sign up!'),
   })
   const handleSubmit = (e) => {
-    e.prevnetDefault()
+    e.preventDefault()
     signupMutation.mutate()
   }
 
