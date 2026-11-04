@@ -10,10 +10,12 @@ export function CreatePost() {
   const [title, setTitle] = useState('')
 
   const [contents, setContents] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
 
   const queryClient = useQueryClient()
   const createPostMutation = useMutation({
-    mutationFn: () => createPost(token, { title, contents }),
+    mutationFn: () =>
+      createPost(token, { title, contents, imageUrl: imageUrl || undefined }),
     onSuccess: () => queryClient.invalidateQueries(['posts']),
   })
 
@@ -27,7 +29,8 @@ export function CreatePost() {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor='create-title'>Title: </label>
+        <h3>Share your recipe:</h3>
+        <label htmlFor='create-title'>Recipe Title: </label>
         <input
           type='text'
           id='create-title'
@@ -38,7 +41,24 @@ export function CreatePost() {
       </div>
 
       <br />
+      <div>
+        <label htmlFor='create-image-url'>Photo URL: </label>
+        <input
+          type='url'
+          id='create-image-url'
+          name='create-image-url'
+          placeholder='https://picsum.photos/200/300/?blur=10'
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+      </div>
+
+      <br />
+      <label htmlFor='create-contents'>Ingredients & Instructions: </label>
+      <br />
+      <br />
       <textarea
+        id='create-contents'
         value={contents}
         onChange={(e) => setContents(e.target.value)}
       />
@@ -46,13 +66,13 @@ export function CreatePost() {
       <br />
       <input
         type='submit'
-        value={createPostMutation.isPending ? 'Creating...' : 'Create'}
+        value={createPostMutation.isPending ? 'Sharing...' : 'Share recipe'}
         disabled={!title || createPostMutation.isPending}
       />
       {createPostMutation.isSuccess ? (
         <>
           <br />
-          Post created successfully!
+          Recipe shared!
         </>
       ) : null}
     </form>

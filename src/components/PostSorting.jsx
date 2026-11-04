@@ -21,8 +21,9 @@ export function PostSorting({
             {field}
           </option>
         ))}
-      </select>
-      {' / '}
+      </select>{' '}
+      <br />
+      <br />
       <label htmlFor='sortOrder'>Sort Order: </label>
       <select
         name='sortOrder'
