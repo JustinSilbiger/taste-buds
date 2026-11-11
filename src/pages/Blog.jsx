@@ -10,6 +10,8 @@ import { getPosts } from '../api/posts.js'
 
 import { Header } from '../components/Header.jsx'
 
+import { Helmet } from 'react-helmet-async'
+
 export function Blog() {
   const [author, setAuthor] = useState('')
   const [sortBy, setSortBy] = useState('createdAt')
@@ -24,6 +26,13 @@ export function Blog() {
 
   return (
     <div style={{ padding: 8 }}>
+      <Helmet>
+        <title>Blog | Taste Buds</title>
+        <meta
+          name='description'
+          content='Taste Buds is a recipe sharing app where users can share their favorite recipes and discover new ones from other users.'
+        />
+      </Helmet>
       <Header />
       <hr />
       <br />
