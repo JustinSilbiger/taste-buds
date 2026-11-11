@@ -1,4 +1,3 @@
-
 name: Deploy Blog Application
 
 on:
@@ -51,6 +50,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64
+          provenance: false
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:${{ github.sha }}
           build-args: VITE_BACKEND_URL=${{ steps.deploy-backend.outputs.url }}/api/v1
