@@ -5,18 +5,25 @@ import slug from 'slug'
 
 const FALLBACK_IMAGE_URL = 'https://picsum.photos/200/300/?blur=7'
 
-export function Post({ title, contents, author, imageUrl, _id, fullPost }) {
+export function Post({
+  title,
+  contents,
+  author,
+  imageUrl,
+  id,
+  fullPost = false,
+}) {
   return (
     <article>
       {fullPost ? (
         <h3>{title}</h3>
       ) : (
-        <Link to={`/posts/${_id}/${slug(title)}`}>
+        <Link to={`/posts/${id}/${slug(title)}`}>
           <h3>{title}</h3>
         </Link>
       )}
 
-      {imageUrl && (
+      {fullPost && imageUrl && (
         <img
           src={imageUrl}
           alt={title}
@@ -32,12 +39,12 @@ export function Post({ title, contents, author, imageUrl, _id, fullPost }) {
         />
       )}
 
-      <div>{contents}</div>
+      {fullPost && <div>{contents}</div>}
 
       {author && (
         <em>
           {fullPost && <br />}
-          Written by <User id={author} />
+          Written by <User {...author} />
         </em>
       )}
     </article>
@@ -49,6 +56,6 @@ Post.propTypes = {
   contents: PropTypes.string,
   author: PropTypes.string,
   imageUrl: PropTypes.string,
-  _id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   fullPost: PropTypes.bool,
 }

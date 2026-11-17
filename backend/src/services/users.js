@@ -24,16 +24,11 @@ export async function loginUser({ username, password }) {
 }
 
 export async function getUserInfoById(userId) {
-  if (!userId) return null
-
   try {
     const user = await User.findById(userId)
-
-    if (!user) return null
-
+    if (!user) return { username: userId }
     return { username: user.username }
   } catch (err) {
-    console.error('Error resolving user:', err)
-    return null
+    return { username: userId }
   }
 }

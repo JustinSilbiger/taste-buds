@@ -1,0 +1,4 @@
+{
+  "schema": "https://obscure-chainsaw-v6pv76pv59jphwjr5-3000.app.github.dev/graphql",
+  "documents": "src/api/graphql/**/*.{js,jsx}"
+}

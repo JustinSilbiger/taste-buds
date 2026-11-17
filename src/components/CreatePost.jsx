@@ -1,27 +1,39 @@
+import { useMutation as useGraphQLMutation } from '@apollo/client/react/index.js'
 import { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-import { createPost } from '../api/posts'
-
+import { Link } from 'react-router-dom'
+import slug from 'slug'
+import {
+  CREATE_POST,
+  GET_POSTS,
+  GET_POSTS_BY_AUTHOR,
+} from '../api/graphql/posts.js'
 import { useAuth } from '../contexts/AuthContext.jsx'
 
 export function CreatePost() {
   const [token] = useAuth()
-  const [title, setTitle] = useState('')
 
+  const [title, setTitle] = useState('')
   const [contents, setContents] = useState('')
   const [imageUrl, setImageUrl] = useState('')
 
-  const queryClient = useQueryClient()
-  const createPostMutation = useMutation({
-    mutationFn: () =>
-      createPost(token, { title, contents, imageUrl: imageUrl || undefined }),
-    onSuccess: () => queryClient.invalidateQueries(['posts']),
-  })
+  const [createPost, { loading, data, error }] = useGraphQLMutation(
+    CREATE_POST,
+    {
+      variables: {
+        title,
+        contents,
+        imageUrl: imageUrl || null,
+      },
+      context: {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+      refetchQueries: [GET_POSTS, GET_POSTS_BY_AUTHOR],
+    },
+  )
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    createPostMutation.mutate()
+    createPost().catch(() => {})
   }
 
   if (!token) return <div>Please log in to create new posts.</div>
@@ -41,20 +53,22 @@ export function CreatePost() {
       </div>
 
       <br />
+
       <div>
         <label htmlFor='create-image-url'>Photo URL: </label>
         <input
           type='url'
           id='create-image-url'
           name='create-image-url'
-          placeholder='https://picsum.photos/200/300/?blur=10'
+          placeholder='https://picsum.photos/200/300'
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
         />
       </div>
 
       <br />
-      <label htmlFor='create-contents'>Ingredients & Instructions: </label>
+
+      <label htmlFor='create-contents'>Ingredients & Instructions:</label>
       <br />
       <br />
       <textarea
@@ -62,17 +76,28 @@ export function CreatePost() {
         value={contents}
         onChange={(e) => setContents(e.target.value)}
       />
+
       <br />
       <br />
+
       <input
         type='submit'
-        value={createPostMutation.isPending ? 'Sharing...' : 'Share recipe'}
-        disabled={!title || createPostMutation.isPending}
+        value={loading ? 'Sharing...' : 'Share recipe'}
+        disabled={!title.trim() || loading}
       />
-      {createPostMutation.isSuccess ? (
+
+      {error && <p role='alert'>Failed to share recipe: {error.message}</p>}
+
+      {data?.createPost ? (
         <>
           <br />
-          Recipe shared!
+          Recipe{' '}
+          <Link
+            to={`/posts/${data.createPost.id}/${slug(data.createPost.title)}`}
+          >
+            {data.createPost.title}
+          </Link>{' '}
+          shared successfully!
         </>
       ) : null}
     </form>

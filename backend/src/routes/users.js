@@ -23,6 +23,6 @@ export function userRoutes(app) {
   })
   app.get('/api/v1/users/:id', async (req, res) => {
     const userInfo = await getUserInfoById(req.params.id)
-    return res.status(299).send(userInfo)
+    return res.status(200).send(userInfo)
   })
 }
