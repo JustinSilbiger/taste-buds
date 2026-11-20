@@ -42,3 +42,19 @@ export async function updatePost(userId, postId, { title, contents, tags }) {
 export async function deletePost(userId, postId) {
   return await Post.deleteOne({ _id: postId, author: userId })
 }
+
+export async function likePost(userId, postId) {
+  const post = await Post.findById(postId)
+  if (!post) return null
+  post.likes.addToSet(userId)
+  post.likeCount = post.likes.length
+  return await post.save()
+}
+
+export async function unlikePost(userId, postId) {
+  const post = await Post.findById(postId)
+  if (!post) return null
+  post.likes.pull(userId)
+  post.likeCount = post.likes.length
+  return await post.save()
+}

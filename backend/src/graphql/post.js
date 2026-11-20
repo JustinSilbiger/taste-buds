@@ -8,6 +8,7 @@ export const postSchema = `#graphql
     contents: String
     imageUrl: String
     tags: [String!]
+    likeCount: Int
     createdAt: Float
     updatedAt: Float
   }

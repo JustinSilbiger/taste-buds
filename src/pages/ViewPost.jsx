@@ -9,6 +9,7 @@ import { getPostById } from '../api/posts.js'
 import { Helmet } from 'react-helmet-async'
 import { getUserInfo } from '../api/users.js'
 import { PostStats } from '../components/PostStats.jsx'
+import { LikeButton } from '../components/LikeButton.jsx'
 
 export function ViewPost({ postId }) {
   const [session, setSession] = useState()
@@ -82,6 +83,7 @@ export function ViewPost({ postId }) {
       {post ? (
         <div>
           <Post {...post} fullPost id={postId} author={userInfo} />
+          <LikeButton postId={postId} likes={post.likes} />
           <hr />
           <PostStats postId={postId} />
         </div>

@@ -25,3 +25,21 @@ export const createPost = async (token, post) => {
   })
   return await res.json()
 }
+
+export const likePost = async (token, postId) => {
+  const res = await fetch(`${backendUrl}/posts/${postId}/like`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('failed to like post')
+  return await res.json()
+}
+
+export const unlikePost = async (token, postId) => {
+  const res = await fetch(`${backendUrl}/posts/${postId}/like`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('failed to unlike post')
+  return await res.json()
+}

@@ -11,6 +11,7 @@ export function Post({
   author,
   imageUrl,
   id,
+  likeCount = 0,
   fullPost = false,
 }) {
   return (
@@ -47,6 +48,10 @@ export function Post({
           Written by <User {...author} />
         </em>
       )}
+
+      <div>
+        ❤️ {likeCount} {likeCount === 1 ? 'like' : 'likes'}
+      </div>
     </article>
   )
 }
@@ -57,5 +62,6 @@ Post.propTypes = {
   author: PropTypes.string,
   imageUrl: PropTypes.string,
   id: PropTypes.string.isRequired,
+  likeCount: PropTypes.number,
   fullPost: PropTypes.bool,
 }
